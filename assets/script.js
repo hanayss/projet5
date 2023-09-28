@@ -20,24 +20,50 @@ const slides = [
 ];
 
 const slideNumber = slides.length;
+let curentIndex = 0;
 
-for (i = 0; i < slideNumber; i++) {
-    console.log(i);
-    const newDotElement = document.createElement("div");
-    newDotElement.classList.add("dot");
-    if (i === 0) {
-        newDotElement.classList.add("dot_selected");
-    }
+function clearDotsContainer() {
     const dotsContainer = document.querySelector(".dots");
-    dotsContainer.appendChild(newDotElement);
-    console.log("newDotElement =>", newDotElement);
+    dotsContainer.innerHTML = "";
 }
+
+function changeDotSelected() {
+    for (i = 0; i < slideNumber; i++) {
+        console.log(i);
+        const newDotElement = document.createElement("div");
+        newDotElement.classList.add("dot");
+        if (i === curentIndex) {
+            newDotElement.classList.add("dot_selected");
+        }
+        const dotsContainer = document.querySelector(".dots");
+        dotsContainer.appendChild(newDotElement);
+        console.log("newDotElement =>", newDotElement);
+    }
+}
+function changeSlide() {
+    const currentSlides = slides[curentIndex];
+    const imageSelected = document.querySelector("#banner .banner-img");
+    imageSelected.src = "./assets/images/slideshow/" + currentSlides.image;
+    const textSelected = document.querySelector("#banner p");
+    textSelected.innerHTML = currentSlides.tagLine;
+}
+changeDotSelected();
 
 const arrowLeftElement = document.querySelector(".arrow_left");
 arrowLeftElement.addEventListener("click", function () {
     console.log("la fleche gauche à été cliquée");
+    curentIndex = curentIndex - 1;
+    console.log("curentIndex =>", curentIndex);
+    clearDotsContainer();
+    changeDotSelected();
+    changeSlide();
 });
 const arrowRightElement = document.querySelector(".arrow_right");
 arrowRightElement.addEventListener("click", function () {
     console.log("la flèche droite à été cliquée");
+    curentIndex = curentIndex + 1;
+    console.log("curentIndex =>", curentIndex);
+    clearDotsContainer();
+    changeDotSelected();
+    changeSlide();
 });
